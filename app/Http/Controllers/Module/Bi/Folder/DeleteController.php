@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Module\Bi\Folder;
 
 use App\Eoffice\Helper;
+use App\Module\Bi\Document;
 use App\Module\Bi\Folder;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -41,6 +42,14 @@ class  DeleteController extends Controller
     public function deleteCascadeFolder()
     {
         foreach ($this->folderToDelete as $folderId) {
+            /** delete related documents first */
+            $documentFactory = new Document();
+            $relatedDocument = $documentFactory->getDocumentsWithFolderId($folderId);
+            foreach ($relatedDocument as $document) {
+                $thisDocument = Document::find($document->ID);
+                $thisDocument->delete();
+            }
+
             $folder = Folder::find($folderId);
             $folder->delete();
         }

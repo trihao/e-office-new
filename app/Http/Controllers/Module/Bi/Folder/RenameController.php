@@ -10,29 +10,20 @@ use Illuminate\Http\Request;
 class  RenameController extends Controller
 {
 
+    protected $biHelper;
+    public function __construct()
+    {
+        $this->biHelper = new \App\Module\Bi\Helper();
+        Helper::setSession("dashboardMenus",\App\Http\Controllers\Module\Bi\IndexController::dashboardMenus);
+    }
     public function index(Request $request)
     {
         $dataPost = $request->input();
-        Helper::setSession("previousRequest",1);
-        Helper::setSession("previousUrl","/bi/folder/view?FolderId=".$dataPost['SelectedFolderId']);
-        if (isset($dataPost['secret'])) {
-            if (Helper::isAUserInSession()) {
-
-                $selectedFolderId = $dataPost["SelectedFolderId"];
-                $currentFolder = Folder::find($selectedFolderId);
-                $currentFolderName = $currentFolder->FolderName;
-
-                $viewHtml = view('system/module/bi/folderRename')
-                    ->with("oldFolderName", $currentFolderName)
-                    ->with("currentFolderId", $selectedFolderId)
-                    ->render();
-                return response()->json(array('success' => true, 'viewHtml' => $viewHtml));
-            } else {
-                return view('user/login');
-            }
-        } else {
-            return redirect('/bi');
-        }
+        $oldFolder = Folder::find($dataPost['SelectedFolderId']);
+        return view("system/module/bi/folderRename")
+            ->with("oldFolderName",$oldFolder->FolderName)
+            ->with("currentFolderId",$dataPost['SelectedFolderId'])
+            ->with("folderTree", $this->biHelper->getFolderTree());
     }
 
     public function execute(Request $request)

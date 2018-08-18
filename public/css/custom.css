@@ -4,6 +4,7 @@
     height: 100%;
     background-color: #FBFAFA;
 }
+
 #prototype-screen-image {
     background-image: url(/media/prototype_screen.jpg);
     background-size: cover;
@@ -12,6 +13,7 @@
     height: 100%;
     background-repeat: no-repeat;
 }
+
 #prototype-screen-image-2 {
     background-image: url(/media/prototype_screen2.png);
     background-size: cover;
@@ -20,6 +22,7 @@
     height: 100%;
     background-repeat: no-repeat;
 }
+
 .product-logo {
     height: 100%;
     display: inline-block;
@@ -261,6 +264,7 @@ body {
     height: 40px;
 
 }
+
 .landing-nav.top-nav ul li a:hover {
     transition: 0.3s;
     opacity: 0.7;
@@ -391,10 +395,12 @@ ul.account-menu-list li a:hover {
     width: 100%;
     box-shadow: 0 8px 6px -6px black;
 }
+
 .landing-nav.top-nav .level-1 li:hover {
     transition: 0.3s;
     background-color: #255d80;
 }
+
 .landing-nav.top-nav .level-1 li a {
     width: 100%;
     background-color: unset;
@@ -412,6 +418,7 @@ ul.account-menu-list li a:hover {
 .landing-nav.top-nav .level-1 li {
 
 }
+
 /** module sidebar menu **/
 .module-menu-sidebar {
     background-color: #0E3853;
@@ -419,9 +426,11 @@ ul.account-menu-list li a:hover {
     margin: 0;
     padding: 0;
 }
+
 .module-menu-sidebar li:first-child {
     margin-top: 20px;
 }
+
 .module-menu-sidebar li {
     list-style: none;
     padding: 5px 0 5px 0;
@@ -431,26 +440,31 @@ ul.account-menu-list li a:hover {
     margin: 2px 0 2px 0;
     background-color: #215271;
 }
+
 .module-menu-sidebar li:hover {
     transition: 0.3s;
     background-color: #255d80;
     box-shadow: 0 8px 6px -6px black;
 
 }
+
 .module-menu-sidebar li a {
     text-decoration: none;
     width: 100%;
     display: inline-block;
     color: white;
 }
+
 .module-menu-toggle {
     width: 100%;
     height: 50px;
 }
+
 .module-menu-toggle a {
     float: right;
     display: inline-block;
 }
+
 .module-menu-toggle img {
     width: 40px;
     height: 40px;
@@ -459,54 +473,238 @@ ul.account-menu-list li a:hover {
     top: 60px;
     left: 140px;
 }
+
 .module-sidebar.hide {
     width: 50px;
 }
+
 .landing-nav.top-nav .level-0 li a.icon-link {
     display: none;
 }
+
 aside.left-panel {
     background: #1f1e39 !important;
 }
+
 #bi-createFolder i {
     color: green;
 }
+
 .login-page .alert {
     margin: 10px 0 10px 0 !important;
     top: -185px;
 }
+
 #bi-openFolder i {
     color: #e5c947;
 }
+
 #bi-renameFolder i {
     color: #355b80;
 }
+
 #deleteFolder i {
     color: #ba2518;
 }
+
 .header-left .dropdown .dropdown-menu {
     margin-top: 10px;
 }
-#header .user-area .user-menu  {
+
+#header .user-area .user-menu {
     position: absolute;
     right: -29px !important;
     top: 36px !important;
 }
+
 .navbar {
     background-color: unset !important;
 }
+
 .header-left .dropdown .dropdown-menu a.dropdown-item {
     background-color: #212549;
 }
+
+.module-bi {
+    height: 100%;
+}
+
+.module-bi .folder-content thead th {
+    font-size: 12px;
+}
+
+.module-bi .folder-content .bi-table-item:hover {
+    cursor: pointer;
+}
+
+.module-bi .folder-content .bi-table-item td {
+    font-size: 12px;
+}
+
+.module-bi .row {
+    height: auto;
+}
+
+.module-bi .folder-sidebar {
+    height: 100%;
+}
+
+.module-bi .folder-sidebar .card {
+    border-radius: 5px;
+    height: 600px;
+}
+
+.module-bi .folder-content .card {
+    border-radius: 5px;
+    height: 600px;
+    overflow: scroll;
+}
+
+.module-bi .folder-content {
+    height: 100%;
+}
+
+.custom-jtree-icon, .custom-plus-icon {
+    display: inline-block;
+    vertical-align: middle;
+    width: 23px;
+    height: 23px;
+    line-height: 22px;
+}
+
+.custom-jtree-icon {
+    margin-right: 5px;
+    margin-top: -5px;
+    background-position: -260px -4px;
+    background-image: url('http://www.eoffice.local/jstree/dist/themes/default/32px.png');
+}
+
+.custom-plus-icon {
+    float: right;
+    border-radius: 50%;
+    font-style: normal;
+    background-color: green;
+    text-align: center;
+    color: white !important;
+    font-weight: 900;
+    box-shadow: 0 0 2px greenyellow;
+}
+
+.table-documentary .table-bordered thead th {
+    text-align: center;
+    background-color: #68a4c8 !important;
+    vertical-align: middle;
+}
+
+.left-table-header .action-on-header {
+    display: inline-block;
+    padding: 0 10px;
+}
+
+.right-table-header input.searh-form {
+    box-sizing: border-box;
+}
+
+.right-table-header {
+    float: right;
+}
+
+.left-table-header {
+    float: left;
+}
+
+.folder-icon img {
+    height: 48px;
+    margin-right: 10px;
+}
+
+.folder-icon img:hover {
+    opacity: 0.6;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.saveBtn-right-toolbar {
+    position: relative;
+    color: white;
+    background-color: #37649b;
+    border-radius: 5px;
+    padding: 5px 30px;
+    margin: 0 0 0 10px;
+}
+.cancelBtn-right-toolbar {
+    position: relative;
+    color: white;
+    background-color: #5e5c63;
+    border-radius: 5px;
+    padding: 5px 30px;
+    margin: 0 0 0 10px;
+}
+.attachedFileInput {
+    margin: 5px 0 5px 0;
+}
+#bi-removeAttachedFileInput {
+    position: relative;
+    top: 17px;
+}
+
+@media screen and (max-width: 1220px) {
+    .folder-sidebar .card .card-header strong {
+        display: inline-block !important;
+    }
+}
+
+@media screen and (max-width: 1100px) {
+    .module-bi .folder-sidebar, .module-bi .folder-content {
+        height: auto;
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .module-bi .folder-sidebar {
+        order: 0;
+    }
+}
+
+@media screen and (max-width: 575.99px) {
+    .right-panel .content #bootstrap-data-table_wrapper .table td,
+    .right-panel .content #bootstrap-data-table_wrapper .table th {
+        padding: 0 !important;
+        font-size: 0.6em;
+        line-height: 1;
+    }
+
+    .left-table-header a {
+        padding: 0 0.3em !important;
+        font-size: 0.65em;
+    }
+
+    .right-table-header input.searh-form {
+        max-width: 70px;
+    }
+}
+
+@media screen and (min-width: 1101px) {
+    .folder-sidebar .card-body {
+        height: 100%;
+        overflow: scroll;
+    }
+
+    .folder-content .card-body {
+        height: 100%;
+    }
+}
+
 @media (max-width: 1230px) {
     .landing-nav.top-nav .level-0 {
         width: 350px !important;
     }
+
     .landing-nav.top-nav .level-0 li a.icon-link {
         display: inline-block;
         background-color: unset;
         padding: unset;
     }
+
     .landing-nav.top-nav .level-0 li a.item-link {
         display: none;
     }
@@ -521,16 +719,19 @@ aside.left-panel {
         height: 40px;
         display: inline-block;
     }
+
     .landing-nav.top-nav .level-1 {
         width: 170px;
         left: -55px;
     }
+
     .landing-nav.top-nav .level-1 li i {
         background-color: unset;
         width: unset;
         height: unset;
         display: unset;
     }
+
     .landing-nav.top-nav .level-1 li a {
         display: inline-table;
     }

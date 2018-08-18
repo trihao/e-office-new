@@ -4,34 +4,29 @@ namespace App\Http\Controllers\Module\Bi\Folder;
 
 use App\Eoffice\Helper;
 use App\Http\Controllers\Controller;
+use App\Module\Bi\Document;
 use App\Module\Bi\Folder;
 use Illuminate\Http\Request;
 
 class  ViewController extends Controller
 {
+    protected $biHelper;
+    public function __construct()
+    {
+        $this->biHelper = new \App\Module\Bi\Helper();
+        Helper::setSession("dashboardMenus",\App\Http\Controllers\Module\Bi\IndexController::dashboardMenus);
+    }
 
     public function index(Request $request)
     {
         $dataPost = $request->input();
-        Helper::setSession("previousRequest",1);
-        Helper::setSession("previousUrl","/bi/folder/view?FolderId=".$dataPost['FolderId']);
-        $thisPost = Folder::find($dataPost['FolderId']);
-        Helper::setSession("parentFolderId",$thisPost->FolderParentID);
-        if (isset($dataPost['secret'])) {
-            if (Helper::isAUserInSession()) {
-                $folderId = $dataPost["FolderId"];
-
-                $childFolders = $this->getChildFolders($folderId);
-//                var_dump($childFolders);die;
-                $viewHtml =
-                    view('system/module/bi/folderView')->with("childFolders",$childFolders)->render();
-                return response()->json(array('success' => true, 'viewHtml' => $viewHtml));
-            } else {
-                return view('user/login');
-            }
-        } else {
-            return redirect('/bi');
-        }
+        $requestFolderId = $dataPost['FolderId'];
+        $childFolders = $this->getChildFolders($requestFolderId);
+        $childDocuments = $this->getChildDocuments($requestFolderId);
+        return view("system/module/bi/folderView")
+            ->with("folderTree", $this->biHelper->getFolderTree())
+            ->with("childDocuments",$childDocuments)
+            ->with("childFolders",$childFolders);
 
     }
 
@@ -40,6 +35,14 @@ class  ViewController extends Controller
         $folderFactory = new Folder();
         $childFolders = $folderFactory->getAllChildFolder($folderId);
         return $childFolders;
+    }
+
+    public function getChildDocuments($folderId)
+    {
+        $documentFactory = new Document();
+        $childDocuments = $documentFactory->getDocumentsWithFolderId($folderId);
+        return $childDocuments;
+
     }
 
 }

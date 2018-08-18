@@ -5,11 +5,11 @@ namespace App\Module\Bi;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class ReferenceDocument extends Model
+class RelatedDocument extends Model
 {
     /**
      * Table name = D76T2001
-     * Table description: Entity ReferenceDocument
+     * Table description: Entity RelatedDocument
      */
     protected $table = 'D76T2001';
     protected $primaryKey = 'ID';

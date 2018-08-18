@@ -7,15 +7,6 @@ class Helper extends \Illuminate\Database\Eloquent\Model
     protected $fullPath = [];
     var $folders = array();
 
-    public static function test()
-    {
-        $folderFactory = new Folder();
-        $folderCollection = $folderFactory->getCollection();
-        $folderArray = [];
-        foreach ($folderCollection as $folder) {
-            $folderArray[] = $folder;
-        }
-    }
     public function getFolderCollection()
     {
         $this->folders = array();
@@ -77,6 +68,26 @@ class Helper extends \Illuminate\Database\Eloquent\Model
         $parentId = $folder->FolderParentId;
         $this->fullPath[] = $parentId;
         return $this->getFullPath($parentId);
+    }
+
+    public function getFolderTree()
+    {
+        $tree = self::viewTree();
+        return $tree;
+    }
+
+    public function uploadFile($file,$fileOrderNumber)
+    {
+        /**
+         * Upload user image and get the path then save it into database
+         */
+        $userId = session("current_user");
+        $timestamp = time();
+        $fileExtension = \File::extension($file->getClientOriginalName());
+        $fileName = "user_$userId" . "_" . "$timestamp". "_" .$fileOrderNumber. "." .$fileExtension;
+        $filePath = 'public/users-upload/'.$userId;
+        $file->storeAs($filePath, $fileName);
+        return $filePath."/".$fileName;
     }
 
 }

@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 
 class  IndexController extends Controller
 {
-    protected $dashboardMenus = [
+    const dashboardMenus = [
         [
             "title" => "Quản lý chuyên mục",
             "url"   => "#",
@@ -24,7 +24,7 @@ class  IndexController extends Controller
     ];
     public function __construct()
     {
-        Helper::setSession("dashboardMenus",$this->dashboardMenus);
+        Helper::setSession("dashboardMenus",self::dashboardMenus);
     }
 
     public function index()

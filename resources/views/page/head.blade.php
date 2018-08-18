@@ -30,7 +30,7 @@
 <link rel="stylesheet" href="{{ asset('scss/dashboard/style.css') }}">
 <link href="{{ asset('css/dashboard/lib/vector-map/jqvmap.min.css') }}" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('css/dashboard/dashboard.css') }}">
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+{{--<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">--}}
 
 <!-- JS Tree -->
 <link rel="stylesheet" href="{{ asset('jstree/dist/themes/default/style.min.css') }}" />
@@ -39,6 +39,13 @@
 <!-- JS Context -->
 <link rel="stylesheet" href="{{ asset('contextjs/context.standalone.css') }}" />
 <script src="{{ asset('contextjs/context.js') }}"></script>
+
+<!-- TinyMCE -->
+<script src="{{ asset('tinymce/tinymce.js') }}"></script>
+
+<!-- CKeditor -->
+<script src="{{ asset('ckeditor5-build-classic/ckeditor.js') }}"></script>
+
 <script src="{{ asset('js/module/bi/folder-manage.js') }}"></script>
 <script type="text/javascript" src="{!! asset('js/custom.js') !!}"></script>
 <script>

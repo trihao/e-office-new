@@ -5,43 +5,47 @@ $(document).ready(function () {
 
     var ajaxContent = $(".folder-content");
 
-    if (typeof previousUrl !== "undefined") {
-        var secretUrl = previousUrl + "&secret=1";
-        viewFolderAjax(secretUrl);
-        //changeHistoryState(previousUrl);
-    }
-
-    /** Back button on toolbar **/
-    $(document).on("click", "#bi-backFolder", function (e) {
-        e.preventDefault();
-        if (typeof parentFolderId !== "undefined") {
-            var stateUrl = "/bi/folder/view?FolderId=" + parentFolderId;
-            var secretUrl = stateUrl + "&secret=1";
-            localStorage.setItem("currentSelectedFolderId", parentFolderId);
-            var treeElement = $('li[folder_id="'+ parentFolderId + '"]');
-            localStorage.setItem("previousUrl",window.location.href);
-            $("#folderTree").jstree("open_all");
-            $("#folderTree").jstree("deselect_all",true);
-            $('#folderTree').jstree('select_node', treeElement.attr("id"));
-            viewFolderAjax(secretUrl);
-            //changeHistoryState(stateUrl);
-        }
-
-    });
+    /** Clear selected folder id in local storage **/
+    // localStorage.removeItem("currentSelectedFolderId");
 
     /** Double click to open folder on grid **/
-    $(document).on("dblclick", ".bi-table-item", function (e) {
+    $(document).on("dblclick", ".bi-table-item.type-folder", function (e) {
         var _this = $(this);
         var stateUrl = "/bi/folder/view?FolderId=" + _this.attr("folder_id");
-        var secretUrl = stateUrl + "&secret=1";
         localStorage.setItem("currentSelectedFolderId", _this.attr("folder_id"));
         var treeElement = $('li[folder_id="'+ _this.attr("folder_id") + '"]');
         $("#folderTree").jstree("open_all");
         $("#folderTree").jstree("deselect_all",true);
         $('#folderTree').jstree('select_node', treeElement.attr("id"));
-        localStorage.setItem("previousUrl",window.location.href);
-        viewFolderAjax(secretUrl);
-        //changeHistoryState(stateUrl);
+        window.location.href = stateUrl;
+    });
+    /** Double click to open document on grid **/
+    $(document).on("dblclick", ".bi-table-item.type-document", function (e) {
+        var _this = $(this);
+        var url = "/bi/document/view?DocumentId=" + _this.attr("document_id");
+        window.location.href = url;
+    });
+    /** Add new attached file **/
+    var attachedFileInputCount = 0;
+    $(document).on("click", "#bi-addFile", function (e) {
+        e.preventDefault();
+        var fileContainer = $(".attachedFiles");
+        if (attachedFileInputCount >= 5) {
+            alert('Tối đa 5 file đính kèm');
+        } else {
+            var html = '<div class="attachedFileWrapper"><div class="col-sm-11" style="padding: 0px"><input  class="form-control input-md attachedFileInput" type="file" name="AttachedFiles[]"></div>';
+            html = html + '<div class="col-sm-1"><a id="bi-removeAttachedFileInput" class="toolbar-btn action-on-header" href=""><i class="fa fa-times-circle"></i></a></div></div>';
+            fileContainer.append(html);
+            attachedFileInputCount++;
+        }
+    });
+
+    /** Remove selected attached input file **/
+    $(document).on("click", "#bi-removeAttachedFileInput", function (e) {
+        e.preventDefault();
+        var _this = $(this);
+        _this.closest(".attachedFileWrapper").remove();
+        attachedFileInputCount--;
     });
 
     /** Create new folder button click **/
@@ -49,36 +53,21 @@ $(document).ready(function () {
         e.preventDefault();
         var selectedFolderId = localStorage.getItem("currentSelectedFolderId");
         var stateUrl = '/bi/folder/create/index' + '?FolderParentID=' + selectedFolderId;
-        var secretUrl = stateUrl + "&secret=1";
-        $.ajax({
-            url: secretUrl,
-            type: "get",
-            dataType: "text",
-            success: function (result) {
-                var resultData = $.parseJSON(result);
-                ajaxContent.html(resultData.viewHtml);
-            }
-        });
-        localStorage.setItem("previousUrl",window.location.href);
-        //changeHistoryState(stateUrl);
+        window.location.href = stateUrl;
+    });
+    /** Create new document button click **/
+    $(document).on("click", "#bi-createDocument", function (e) {
+        e.preventDefault();
+        var selectedFolderId = localStorage.getItem("currentSelectedFolderId");
+        var stateUrl = '/bi/document/create/index' + '?FolderParentID=' + selectedFolderId;
+        window.location.href = stateUrl;
     });
     /** Rename folder **/
     $(document).on("click", "#bi-renameFolder", function (e) {
         e.preventDefault();
         var selectedFolderId = localStorage.getItem("currentSelectedFolderId");
         var stateUrl = '/bi/folder/rename/index?SelectedFolderId=' + selectedFolderId;
-        var secretUrl = stateUrl + "&secret=1";
-        $.ajax({
-            url: secretUrl,
-            type: "get",
-            dataType: "text",
-            success: function (result) {
-                var resultData = $.parseJSON(result);
-                ajaxContent.html(resultData.viewHtml);
-            }
-        });
-        localStorage.setItem("previousUrl",window.location.href);
-        //changeHistoryState(stateUrl);
+        window.location.href = stateUrl;
     });
     /** Delete folder **/
     $(document).on("click", "#bi-deleteFolder", function (e) {
@@ -94,8 +83,28 @@ $(document).ready(function () {
                 $(location).attr('href', '/bi')
             }
         });
-        localStorage.setItem("previousUrl",window.location.href);
+    });
 
+    /** Submit document create form **/
+    $(document).on("click", "#submitCreateDocumentForm", function (e) {
+        e.preventDefault();
+        var documentCreateForm = $("#processDocument");
+        console.log(documentCreateForm);
+        documentCreateForm.submit();
+    });
+    /** Submit document create form **/
+    $(document).on("click", "#bi-selectRelatedDocument", function (e) {
+        e.preventDefault();
+        var allInputs = $(".relatedDocumentIds input:checked");
+        var createDocumentForm = $("#processDocument");
+
+        $(".hidden-relatedDocumentId").each(function () {
+            $(this).remove();
+        });
+
+        allInputs.each(function () {
+            createDocumentForm.append("<input class='hidden-relatedDocumentId' name='relatedDocumentIds[]' type='hidden' value='"+ $(this).val() +"'>");
+        });
     });
 
 
@@ -116,96 +125,9 @@ $(document).ready(function () {
         .on('changed.jstree', function (e, data) {
             var selectedFolderId = data.node.li_attr.folder_id;
             localStorage.setItem("currentSelectedFolderId", selectedFolderId);
-            var stateUrl = "/bi/folder/view?FolderId=" + selectedFolderId;
-            var secretUrl = stateUrl + "&secret=1";
-            localStorage.setItem("previousUrl",window.location.href);
-            viewFolderAjax(secretUrl);
-            //changeHistoryState(stateUrl);
+            var url = "/bi/folder/view?FolderId=" + selectedFolderId;
+            window.location.href = url;
+            // viewFolderAjax(secretUrl);
         })
         .jstree();
-    /** Detect state changed **/
-    window.onpopstate = function (event) {
-        // do stuff here
-        var stateUrl = window.location.href.toString().split(window.location.host)[1];
-        var secretUrl = stateUrl + "&secret=1";
-        viewFolderAjax(secretUrl);
-        //changeHistoryState(stateUrl);
-    }
-
-    /** Function to call viewFolder action by Ajax **/
-    function viewFolderAjax(url) {
-        $.ajax({
-            url: url,
-            type: "get",
-            dataType: "text",
-            success: function (result) {
-                var resultData = $.parseJSON(result);
-                ajaxContent.html(resultData.viewHtml);
-            }
-        });
-    }
-
-    /** Change history state to specific Url **/
-    function changeHistoryState(url) {
-        window.history.pushState(null, null, url);
-    }
-
-    /** Set up context menu**/
-    context.init({
-        fadeSpeed: 100,
-        filter: function ($obj) {
-        },
-        above: 'auto',
-        // preventDoubleContext: true,
-        compress: false,
-        relatedTarget: this
-    });
-    var subMenus = [
-        {
-            text: "Open",
-            // href: "/",
-            action: function (event) {
-                console.log(event);
-                // alert('Open folder by context menu is coming soon')
-            }
-        },
-        {
-            text: "Create New Folder",
-            // href: "/",
-            action: function (event) {
-                alert('Create new folder by context menu is coming soon')
-            }
-        },
-        {
-            text: "Create New Document",
-            // href: "/",
-            action: function (event) {
-                alert('Create New Document by context menu is coming soon')
-            }
-        },
-        {
-            text: "Rename",
-            // href: "/",
-            action: function (event) {
-                alert('Rename folder by context menu is coming soon')
-            }
-        },
-        {
-            text: "Delete",
-            // href: "/",
-            action: function (event) {
-                alert('Delete folder by context menu is coming soon')
-            }
-        },
-    ]
-    var fileManagerContextMenus = [
-        {
-            text: "Refresh",
-            href: "/bi",
-        }
-    ]
-    // context.attach(".jstree-anchor",subMenus);
-    // context.attach(".module-bi .bi-table-item",subMenus);
-    // context.attach(".content .module-bi",fileManagerContextMenus);
-
 });

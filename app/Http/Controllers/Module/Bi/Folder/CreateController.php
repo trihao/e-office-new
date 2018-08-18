@@ -10,24 +10,19 @@ use Illuminate\Http\Request;
 class  CreateController extends Controller
 {
 
+    protected $biHelper;
+    public function __construct()
+    {
+        $this->biHelper = new \App\Module\Bi\Helper();
+        Helper::setSession("dashboardMenus",\App\Http\Controllers\Module\Bi\IndexController::dashboardMenus);
+    }
     public function index(Request $request)
     {
         $dataPost = $request->input();
-        Helper::setSession("previousRequest",1);
-        Helper::setSession("previousUrl","/bi/folder/view?FolderId=".$dataPost['FolderParentID']);
-        if (isset($dataPost['secret'])) {
-            if (Helper::isAUserInSession()) {
-                $viewHtml = view('system/module/bi/folderCreate')
-                    ->with("CreateUserID", Helper::getSession("current_user"))
-                    ->with("FolderParentID", $dataPost["FolderParentID"])
-                    ->render();
-                return response()->json(array('success' => true, 'viewHtml' => $viewHtml));
-            } else {
-                return view('user/login');
-            }
-        } else {
-            return redirect('/bi');
-        }
+        return view("system/module/bi/folderCreate")
+            ->with("CreateUserID",Helper::getSession("current_user"))
+            ->with("FolderParentID",$dataPost['FolderParentID'])
+            ->with("folderTree", $this->biHelper->getFolderTree());
     }
 
     public function execute(Request $request)
@@ -44,11 +39,9 @@ class  CreateController extends Controller
             $folder->save();
             Helper::setSession('successMessage',"Tạo folder mới thành công");
             return redirect('/bi');
-//            return response()->json(array('success' => true));
         } catch (\Exception $exception) {
             var_dump($exception->getMessage());die;
             return redirect('/bi');
-//            return response()->json(array('success' => false, 'errorMessage' => $exception->getMessage()));
         }
     }
 }

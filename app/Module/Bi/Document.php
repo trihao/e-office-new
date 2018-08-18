@@ -21,5 +21,20 @@ class Document extends Model
             ->get();
         return $collection;
     }
+    public function getDocumentsWithFolderId($folderParentId)
+    {
+        $collection = DB::table($this->table)
+            ->where("FolderID","=", $folderParentId)
+            ->get();
+        return $collection;
+    }
+
+    public function getAllDocumentExceptThis($documentId)
+    {
+        $collection = DB::table($this->table)
+            ->where("ID","<>", $documentId)
+            ->get();
+        return $collection;
+    }
 
 }
