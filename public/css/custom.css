@@ -646,7 +646,46 @@ aside.left-panel {
     position: relative;
     top: 17px;
 }
+#searchRelativeTitle {
+    width: 240px;
+}
+.module-news .filterBox {
+    margin-top: 20px;
+    max-width: 100% !important;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    display: inline-block;
+}
+#news-createNews {
+    background-color: #2f8045;
+    border-radius: 4px;
+    box-shadow:  0 0 5px grey;
+    color: white;
+    padding: 5px 15px;
+    margin: 0 0 0 15px;
+}
+#news-createNews:hover {
+    transition: 0.3s;
+    opacity: 0.7;
+}
 
+.news-table td img {
+    width: 100px;
+}
+
+.news-table .lastNewsModified {
+    background-color: #4eaa58 !important;
+}
+.search-suggestion-list ul {
+    list-style: none;
+    position: absolute;
+    background-color: white;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    width: 257px;
+    box-shadow: 0 0 5px grey;
+}
 @media screen and (max-width: 1220px) {
     .folder-sidebar .card .card-header strong {
         display: inline-block !important;

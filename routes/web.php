@@ -28,3 +28,13 @@ Route::post('/bi/document/create/execute', 'Module\Bi\Document\CreateController@
 Route::get('/bi/document/view', 'Module\Bi\Document\ViewController@index');
 Route::get('/bi/document/edit', 'Module\Bi\Document\EditController@index');
 Route::post('/bi/document/edit/execute', 'Module\Bi\Document\EditController@execute');
+
+Route::get('/news', 'Module\News\NewsController@index');
+Route::get('/news/manage', 'Module\News\ManageNewsController@index');
+Route::get('/news/manage/filter', 'Module\News\ManageNewsController@filter');
+Route::get('/news/create', 'Module\News\CreateNewsController@index');
+Route::post('/news/create/save', 'Module\News\CreateNewsController@execute');
+Route::get('/news/edit', 'Module\News\EditNewsController@index');
+Route::post('/news/edit/save', 'Module\News\EditNewsController@execute');
+Route::get('/news/delete', 'Module\News\DeleteNewsController@execute');
+Route::get('/news/search/title', 'Module\News\SearchNewsController@searchTitle');

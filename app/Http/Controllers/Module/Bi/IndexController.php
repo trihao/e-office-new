@@ -9,18 +9,18 @@ use App\Http\Controllers\Controller;
 class  IndexController extends Controller
 {
     const dashboardMenus = [
-        [
-            "title" => "Quản lý chuyên mục",
-            "url"   => "#",
-        ],
-        [
-            "title" => "Quản lý quyền truy cập",
-            "url"   => "#",
-        ],
-        [
-            "title" => "Quản lý tài liệu",
-            "url"   => "#",
-        ]
+//        [
+//            "title" => "Quản lý chuyên mục",
+//            "url"   => "#",
+//        ],
+//        [
+//            "title" => "Quản lý quyền truy cập",
+//            "url"   => "#",
+//        ],
+//        [
+//            "title" => "Quản lý tài liệu",
+//            "url"   => "#",
+//        ]
     ];
     public function __construct()
     {
